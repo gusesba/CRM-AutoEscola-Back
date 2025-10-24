@@ -11,11 +11,9 @@ namespace Exemplo.Service.Handlers
     public class CriarServicoCommandHandler : IRequestHandler<CriarServicoCommand, ServicoModel>
     {
         private readonly ExemploDbContext _context;
-        private readonly IMediator _mediator;
-        public CriarServicoCommandHandler(ExemploDbContext context, IMediator mediator)
+        public CriarServicoCommandHandler(ExemploDbContext context)
         {
             _context = context;
-            _mediator = mediator;
         }
 
         public async Task<ServicoModel> Handle(CriarServicoCommand request, CancellationToken cancellationToken)

@@ -13,6 +13,8 @@ namespace Exemplo.Persistence
 
         public DbSet<ServicoModel> Servico { get; set; }
 
+        public DbSet<SedeModel> Sede { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<ExemploModel>(entity =>
@@ -43,6 +45,17 @@ namespace Exemplo.Persistence
                 entity.HasKey(p => p.Id);
                 entity.Property(p => p.Id).ValueGeneratedOnAdd();
                 entity.Property(p => p.Nome).HasMaxLength(200).IsRequired();
+            });
+
+            //Sede
+            modelBuilder.Entity<SedeModel>(entity =>
+            {
+                entity.ToTable("sede");
+                entity.HasKey(p => p.Id);
+                entity.Property(p => p.Id).ValueGeneratedOnAdd();
+                entity.Property(p => p.Nome).HasMaxLength(200).IsRequired();
+                entity.Property(p => p.DataInclusao).IsRequired();
+                entity.Property(p => p.Ativo).HasDefaultValue(true);
             });
         }
     }

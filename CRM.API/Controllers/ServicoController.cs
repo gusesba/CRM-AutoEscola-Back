@@ -1,4 +1,5 @@
 ﻿using Exemplo.Domain.Model;
+using Exemplo.Domain.Settings;
 using Exemplo.Service.Commands;
 using Exemplo.Service.Queries;
 using MediatR;
@@ -20,13 +21,22 @@ namespace Renova.API.Controllers
 
         [HttpPost]
         [Authorize("AdminOnly")]
-        [ProducesResponseType(typeof(ExemploModel), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ServicoModel), StatusCodes.Status201Created)]
 
         public async Task<IActionResult> Registrar([FromBody] CriarServicoCommand command)
         {
             var servico = await _mediator.Send(command);
 
-            return Ok(servico);
+            return Created($"/api/servico/{servico.Id}",servico);
+        }
+
+        [HttpGet]
+        [ProducesResponseType(typeof(PagedResult<ServicoModel>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> BuscarServicos([FromQuery] BuscarServicosQuery query)
+        {
+            var servicos = await _mediator.Send(query);
+
+            return Ok(servicos);
         }
     }
 }
