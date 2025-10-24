@@ -11,6 +11,8 @@ namespace Exemplo.Persistence
 
         public DbSet<UsuarioModel> Usuario { get; set; }
 
+        public DbSet<ServicoModel> Servico { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<ExemploModel>(entity =>
@@ -33,6 +35,14 @@ namespace Exemplo.Persistence
                 entity.Property(p => p.Nome).HasMaxLength(200).IsRequired();
                 entity.Property(p => p.IsAdmin).IsRequired(true).HasDefaultValue(false);
                 entity.HasIndex(p => p.Usuario).IsUnique();
+            });
+
+            modelBuilder.Entity<ServicoModel>(entity =>
+            {
+                entity.ToTable("servico");
+                entity.HasKey(p => p.Id);
+                entity.Property(p => p.Id).ValueGeneratedOnAdd();
+                entity.Property(p => p.Nome).HasMaxLength(200).IsRequired();
             });
         }
     }

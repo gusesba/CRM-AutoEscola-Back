@@ -33,7 +33,7 @@ namespace Exemplo.Service.Handlers
             {
                 new Claim("User",request.Usuario),
                 new Claim("Name", usuario.Nome),
-                new Claim("IsAdmin",usuario.IsAdmin ? "Admin" : "User")
+                new Claim("role",usuario.IsAdmin ? "Admin" : "User")
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_settings.AuthSettings.Key));
