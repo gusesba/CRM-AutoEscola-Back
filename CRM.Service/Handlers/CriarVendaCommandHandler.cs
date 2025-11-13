@@ -1,0 +1,56 @@
+﻿using Exemplo.Domain.Model;
+using Exemplo.Domain.Model.Dto;
+using Exemplo.Persistence;
+using Exemplo.Service.Commands;
+using Exemplo.Service.Queries;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
+
+namespace Exemplo.Service.Handlers
+{
+    public class CriarVendaCommandHandler : IRequestHandler<CriarVendaCommand, VendaModel>
+    {
+        private readonly ExemploDbContext _context;
+        public CriarVendaCommandHandler(ExemploDbContext context)
+        {
+            _context = context;
+        }
+
+        public async Task<VendaModel> Handle(CriarVendaCommand request, CancellationToken cancellationToken)
+        {
+            //Verificar por telefone
+            //var vendaExistente = await _context.Venda
+            //    .FirstOrDefaultAsync(u => u.Nome == request.Nome);
+
+            //if (vendaExistente != null)
+            //    throw new Exception("Venda já cadastrada.");
+
+            var novoVenda = new VendaModel()
+            {
+                Celular = request.Celular,
+                ComoConheceu = request.ComoConheceu,
+                VendedorId = request.VendedorId,
+                ValorVenda = request.ValorVenda,
+                Status = request.Status,
+                ServicoId = request.ServicoId,
+                SedeId = request.SedeId,
+                Origem = request.Origem,
+                Obs = request.Obs,
+                CondicaoVendaId = request.CondicaoVendaId,
+                Contato = request.Contato,
+                Email = request.Email,
+                DataInicial = DateTime.UtcNow,
+                Fone = request.Fone,
+                Genero = request.Genero,
+                Indicacao = request.Indicacao,
+                MotivoEscolha = request.MotivoEscolha,
+                Cliente = request.Cliente
+            };
+
+            var venda = await _context.Venda.AddAsync(novoVenda);
+            await _context.SaveChangesAsync();
+
+            return venda.Entity;
+        }
+    }
+}

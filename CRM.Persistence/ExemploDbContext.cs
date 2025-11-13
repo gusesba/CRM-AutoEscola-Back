@@ -15,6 +15,10 @@ namespace Exemplo.Persistence
 
         public DbSet<SedeModel> Sede { get; set; }
 
+        public DbSet<CondicaoVendaModel> CondicaoVenda { get; set; }
+
+        public DbSet<VendaModel> Venda { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<ExemploModel>(entity =>
@@ -37,6 +41,11 @@ namespace Exemplo.Persistence
                 entity.Property(p => p.Nome).HasMaxLength(200).IsRequired();
                 entity.Property(p => p.IsAdmin).IsRequired(true).HasDefaultValue(false);
                 entity.HasIndex(p => p.Usuario).IsUnique();
+
+                entity.HasMany(p => p.Vendas)
+                        .WithOne(p => p.Vendedor)
+                        .HasForeignKey(p => p.VendedorId)
+                        .OnDelete(DeleteBehavior.NoAction);
             });
 
             modelBuilder.Entity<ServicoModel>(entity =>
@@ -45,9 +54,13 @@ namespace Exemplo.Persistence
                 entity.HasKey(p => p.Id);
                 entity.Property(p => p.Id).ValueGeneratedOnAdd();
                 entity.Property(p => p.Nome).HasMaxLength(200).IsRequired();
+
+                entity.HasMany(p => p.Vendas)
+                        .WithOne(p => p.Servico)
+                        .HasForeignKey(p => p.ServicoId)
+                        .OnDelete(DeleteBehavior.NoAction);
             });
 
-            //Sede
             modelBuilder.Entity<SedeModel>(entity =>
             {
                 entity.ToTable("sede");
@@ -56,6 +69,70 @@ namespace Exemplo.Persistence
                 entity.Property(p => p.Nome).HasMaxLength(200).IsRequired();
                 entity.Property(p => p.DataInclusao).IsRequired();
                 entity.Property(p => p.Ativo).HasDefaultValue(true);
+
+                entity.HasMany(p => p.Vendas)
+                        .WithOne(p => p.Sede)
+                        .HasForeignKey(p => p.SedeId)
+                        .OnDelete(DeleteBehavior.NoAction);
+            });
+
+            modelBuilder.Entity<CondicaoVendaModel>(entity =>
+            {
+                entity.ToTable("condicaoVenda");
+                entity.HasKey(p => p.Id);
+                entity.Property(p => p.Id).ValueGeneratedOnAdd();
+                entity.Property(p => p.Nome).HasMaxLength(200).IsRequired();
+
+                entity.HasMany(p => p.Vendas)
+                        .WithOne(p => p.CondicaoVenda)
+                        .HasForeignKey(p => p.CondicaoVendaId)
+                        .OnDelete(DeleteBehavior.NoAction);
+            });
+
+            modelBuilder.Entity<VendaModel>(entity =>
+            {
+                entity.ToTable("venda");
+                entity.HasKey(entity => entity.Id);
+                entity.Property(p => p.Id).IsRequired();
+                entity.Property(p => p.SedeId).IsRequired();
+                entity.Property(p => p.DataInicial).IsRequired();
+                entity.Property(p => p.VendedorId).IsRequired();
+                entity.Property(p => p.DataAlteracao);
+                entity.Property(p => p.Cliente).IsRequired();
+                entity.Property(p => p.Genero);
+                entity.Property(p => p.Origem);
+                entity.Property(p => p.Email);
+                entity.Property(p => p.Fone);
+                entity.Property(p => p.Celular);
+                entity.Property(p => p.Contato);
+                entity.Property(p => p.ComoConheceu);
+                entity.Property(p => p.MotivoEscolha);
+                entity.Property(p => p.ServicoId);
+                entity.Property(p => p.Obs);
+                entity.Property(p => p.CondicaoVendaId);
+                entity.Property(p => p.Status);
+                entity.Property(p => p.ValorVenda);
+                entity.Property(p => p.Indicacao);
+
+                entity.HasOne(p => p.Sede)
+                      .WithMany(p => p.Vendas)
+                      .HasForeignKey(p => p.SedeId)
+                      .OnDelete(DeleteBehavior.NoAction);
+
+                entity.HasOne(p => p.Vendedor)
+                      .WithMany(p => p.Vendas)
+                      .HasForeignKey(p => p.VendedorId)
+                      .OnDelete(DeleteBehavior.NoAction);
+
+                entity.HasOne(p => p.Servico)
+                      .WithMany(p => p.Vendas)
+                      .HasForeignKey(p => p.ServicoId)
+                      .OnDelete(DeleteBehavior.NoAction);
+
+                entity.HasOne(p => p.CondicaoVenda)
+                      .WithMany(p => p.Vendas)
+                      .HasForeignKey(p => p.CondicaoVendaId)
+                      .OnDelete(DeleteBehavior.NoAction);
             });
         }
     }
