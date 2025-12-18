@@ -34,7 +34,8 @@ namespace Renova.API.Controllers
         }
 
         [HttpPost("registrar")]
-        [Authorize("AdminOnly")]
+        //[Authorize("AdminOnly")]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(LoginDto), StatusCodes.Status201Created)]
         public async Task<IActionResult> Registrar([FromBody] SignUpCommand command)
         {

@@ -1,0 +1,40 @@
+﻿using Exemplo.Domain.Model;
+using Exemplo.Domain.Model.Enum;
+using Exemplo.Domain.Settings;
+using Exemplo.Service.Config;
+
+namespace Exemplo.Service.Queries
+{
+    public class BuscarVendasQuery : BasePaginatedRequest<PagedResult<VendaModel>>
+    {
+        public int? Id { get; set; }
+
+        public int? SedeId { get; set; }
+
+        public int? VendedorId { get; set; }
+
+        public int? ServicoId { get; set; }
+
+        public int? CondicaoVendaId { get; set; }
+
+        public StatusEnum? Status { get; set; }
+
+        public GeneroEnum? Genero { get; set; }
+
+        public OrigemEnum? Origem { get; set; }
+
+        public string? Cliente { get; set; }
+
+        public string? Email { get; set; }
+
+        public string? Fone { get; set; }
+
+        public string? Celular { get; set; }
+
+        public DateTime? DataInicialDe { get; set; }
+        public DateTime? DataInicialAte { get; set; }
+
+        public decimal? ValorMinimo { get; set; }
+        public decimal? ValorMaximo { get; set; }
+    }
+}

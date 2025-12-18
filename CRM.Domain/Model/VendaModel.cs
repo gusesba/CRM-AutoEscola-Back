@@ -1,5 +1,6 @@
 ﻿using Exemplo.Domain.Model.Dto;
 using Exemplo.Domain.Model.Enum;
+using System.Text.Json.Serialization;
 
 namespace Exemplo.Domain.Model
 {
@@ -29,5 +30,8 @@ namespace Exemplo.Domain.Model
         public StatusEnum Status { get; set; }
         public decimal ValorVenda { get; set; }
         public string Indicacao { get; set; }
+
+        [JsonIgnore]
+        public ICollection<AgendamentoModel> Agendamentos { get; set; }
     }
 }

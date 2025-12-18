@@ -19,6 +19,8 @@ namespace Exemplo.Persistence
 
         public DbSet<VendaModel> Venda { get; set; }
 
+        public DbSet<AgendamentoModel> Agendamento { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<ExemploModel>(entity =>
@@ -132,6 +134,26 @@ namespace Exemplo.Persistence
                 entity.HasOne(p => p.CondicaoVenda)
                       .WithMany(p => p.Vendas)
                       .HasForeignKey(p => p.CondicaoVendaId)
+                      .OnDelete(DeleteBehavior.NoAction);
+
+                entity.HasMany(p => p.Agendamentos)
+                        .WithOne(p => p.Venda)
+                        .HasForeignKey(p => p.VendaId)
+                        .OnDelete(DeleteBehavior.NoAction);
+            });
+
+            modelBuilder.Entity<AgendamentoModel>(entity =>
+            {
+                entity.ToTable("agendamento");
+                entity.HasKey(p => p.Id);
+                entity.Property(p => p.Id).ValueGeneratedOnAdd();
+                entity.Property(p => p.VendaId).IsRequired();
+                entity.Property(p => p.DataAgendamento).IsRequired();
+                entity.Property(p => p.Obs);
+
+                entity.HasOne(p => p.Venda)
+                      .WithMany(p => p.Agendamentos)
+                      .HasForeignKey(p => p.VendaId)
                       .OnDelete(DeleteBehavior.NoAction);
             });
         }

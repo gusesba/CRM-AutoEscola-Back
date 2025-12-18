@@ -1,5 +1,7 @@
 ﻿using Exemplo.Domain.Model;
+using Exemplo.Domain.Settings;
 using Exemplo.Service.Commands;
+using Exemplo.Service.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -27,13 +29,13 @@ namespace Renova.API.Controllers
             return Created($"/api/venda/{venda.Id}",venda);
         }
 
-        //[HttpGet]
-        //[ProducesResponseType(typeof(PagedResult<VendaModel>), StatusCodes.Status200OK)]
-        //public async Task<IActionResult> BuscarVendas([FromQuery] BuscarVendasQuery query)
-        //{
-        //    var vendas = await _mediator.Send(query);
+        [HttpGet]
+        [ProducesResponseType(typeof(PagedResult<VendaModel>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> BuscarVendas([FromQuery] BuscarVendasQuery query)
+        {
+            var vendas = await _mediator.Send(query);
 
-        //    return Ok(vendas);
-        //}
+            return Ok(vendas);
+        }
     }
 }
