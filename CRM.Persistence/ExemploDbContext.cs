@@ -96,7 +96,7 @@ namespace Exemplo.Persistence
                 entity.ToTable("venda");
                 entity.HasKey(entity => entity.Id);
                 entity.Property(p => p.Id).IsRequired();
-                entity.Property(p => p.SedeId).IsRequired();
+                entity.Property(p => p.SedeId);
                 entity.Property(p => p.DataInicial).IsRequired();
                 entity.Property(p => p.VendedorId).IsRequired();
                 entity.Property(p => p.DataAlteracao);
@@ -105,16 +105,16 @@ namespace Exemplo.Persistence
                 entity.Property(p => p.Origem);
                 entity.Property(p => p.Email);
                 entity.Property(p => p.Fone);
-                entity.Property(p => p.Celular);
                 entity.Property(p => p.Contato);
                 entity.Property(p => p.ComoConheceu);
                 entity.Property(p => p.MotivoEscolha);
                 entity.Property(p => p.ServicoId);
                 entity.Property(p => p.Obs);
                 entity.Property(p => p.CondicaoVendaId);
-                entity.Property(p => p.Status);
+                entity.Property(p => p.Status).IsRequired();
                 entity.Property(p => p.ValorVenda);
                 entity.Property(p => p.Indicacao);
+                entity.Property(p => p.Contrato);
 
                 entity.HasOne(p => p.Sede)
                       .WithMany(p => p.Vendas)
