@@ -71,11 +71,12 @@ namespace Exemplo.Service.Handlers
                 query = query.Where(v => v.Fone.ToLower().Contains(filtro));
             }
 
-            if (!string.IsNullOrWhiteSpace(request.Celular))
+            if (!string.IsNullOrWhiteSpace(request.Contato))
             {
-                var filtro = request.Celular.ToLower();
-                query = query.Where(v => v.Celular.ToLower().Contains(filtro));
+                var filtro = request.Contato.ToLower();
+                query = query.Where(v => v.Contato.ToLower().Contains(filtro));
             }
+
 
             if (request.DataInicialDe.HasValue)
                 query = query.Where(v => v.DataInicial >= request.DataInicialDe.Value);

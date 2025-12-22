@@ -27,7 +27,6 @@ namespace Exemplo.Service.Handlers
 
             var novoVenda = new VendaModel()
             {
-                Celular = request.Celular,
                 ComoConheceu = request.ComoConheceu,
                 VendedorId = request.VendedorId,
                 ValorVenda = request.ValorVenda,
