@@ -30,6 +30,7 @@ namespace Exemplo.Domain.Model
         public decimal? ValorVenda { get; set; }
         public string? Indicacao { get; set; }
         public string? Contrato { get; set; }
+        public DateTime? DataNascimento { get; set; }
 
         [JsonIgnore]
         public ICollection<AgendamentoModel> Agendamentos { get; set; }

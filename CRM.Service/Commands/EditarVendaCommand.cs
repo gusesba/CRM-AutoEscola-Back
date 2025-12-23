@@ -24,5 +24,6 @@ namespace Exemplo.Service.Commands
         public decimal? ValorVenda { get; set; }
         public string? Indicacao { get; set; }
         public string? Contrato { get; set; }
+        public DateTime? DataNascimento { get; set; }
     }
 }

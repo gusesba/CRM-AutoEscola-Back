@@ -115,6 +115,7 @@ namespace Exemplo.Persistence
                 entity.Property(p => p.ValorVenda);
                 entity.Property(p => p.Indicacao);
                 entity.Property(p => p.Contrato);
+                entity.Property(p => p.DataNascimento);
 
                 entity.HasOne(p => p.Sede)
                       .WithMany(p => p.Vendas)
