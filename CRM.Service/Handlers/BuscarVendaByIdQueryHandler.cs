@@ -1,0 +1,34 @@
+﻿using Exemplo.Domain.Model;
+using Exemplo.Persistence;
+using Exemplo.Service.Queries;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
+
+namespace Exemplo.Service.Handlers
+{
+    public class BuscarVendaByIdQueryHandler
+        : IRequestHandler<BuscarVendaByIdQuery, VendaModel>
+    {
+        private readonly ExemploDbContext _context;
+
+        public BuscarVendaByIdQueryHandler(ExemploDbContext context)
+        {
+            _context = context;
+        }
+
+        public async Task<VendaModel> Handle(
+            BuscarVendaByIdQuery request,
+            CancellationToken cancellationToken)
+        {
+            IQueryable<VendaModel> query = _context.Venda
+                .Include(v => v.Sede)
+                .Include(v => v.Vendedor)
+                .Include(v => v.Servico)
+                .Include(v => v.CondicaoVenda);
+
+            var venda = await query.FirstOrDefaultAsync();
+
+            return venda;
+        }
+    }
+}

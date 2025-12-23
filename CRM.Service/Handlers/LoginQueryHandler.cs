@@ -33,6 +33,7 @@ namespace Exemplo.Service.Handlers
             {
                 new Claim("User",request.Usuario),
                 new Claim("Name", usuario.Nome),
+                new Claim("UserId", usuario.Id.ToString()),
                 new Claim("role",usuario.IsAdmin ? "Admin" : "User")
             };
 

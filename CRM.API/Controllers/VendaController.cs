@@ -37,5 +37,25 @@ namespace Renova.API.Controllers
 
             return Ok(vendas);
         }
+
+        [HttpGet("{Id}")]
+        [ProducesResponseType(typeof(VendaModel), StatusCodes.Status200OK)]
+        public async Task<IActionResult> BuscarVendaById([FromRoute] BuscarVendaByIdQuery query)
+        {
+            var venda = await _mediator.Send(query);
+
+            return Ok(venda);
+        }
+
+        [HttpPut]
+        [ProducesResponseType(typeof(VendaModel), StatusCodes.Status200OK)]
+
+        public async Task<IActionResult> Editar([FromBody] EditarVendaCommand command)
+        {
+            var venda = await _mediator.Send(command);
+
+            return Ok(venda);
+        }
+
     }
 }

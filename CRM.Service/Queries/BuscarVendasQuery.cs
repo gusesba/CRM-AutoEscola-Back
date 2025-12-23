@@ -29,7 +29,7 @@ namespace Exemplo.Service.Queries
 
         public string? Fone { get; set; }
 
-        public string Contato { get; set; }
+        public string? Contato { get; set; }
 
         public DateTime? DataInicialDe { get; set; }
         public DateTime? DataInicialAte { get; set; }
