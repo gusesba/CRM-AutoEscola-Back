@@ -35,9 +35,6 @@ namespace Exemplo.Service.Handlers
             if (request.SedeId.HasValue)
                 query = query.Where(v => v.SedeId == request.SedeId.Value);
 
-            if (request.VendedorId.HasValue)
-                query = query.Where(v => v.VendedorId == request.VendedorId.Value);
-
             if (request.ServicoId.HasValue)
                 query = query.Where(v => v.ServicoId == request.ServicoId.Value);
 
@@ -52,6 +49,12 @@ namespace Exemplo.Service.Handlers
 
             if (request.Origem.HasValue)
                 query = query.Where(v => v.Origem == request.Origem.Value);
+
+            if(!string.IsNullOrWhiteSpace(request.Vendedor))
+            {
+                var filtro = request.Vendedor.ToLower();
+                query = query.Where(v => v.Vendedor.Nome.ToLower().Contains(filtro));
+            }
 
             if (!string.IsNullOrWhiteSpace(request.Cliente))
             {

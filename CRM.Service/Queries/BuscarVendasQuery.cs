@@ -11,7 +11,7 @@ namespace Exemplo.Service.Queries
 
         public int? SedeId { get; set; }
 
-        public int? VendedorId { get; set; }
+        public string? Vendedor { get; set; }
 
         public int? ServicoId { get; set; }
 
