@@ -26,6 +26,8 @@ namespace Exemplo.Service.Handlers
                 .Include(v => v.Servico)
                 .Include(v => v.CondicaoVenda);
 
+            query = query.Where(v => v.Id == request.Id);
+
             var venda = await query.FirstOrDefaultAsync();
 
             return venda;
