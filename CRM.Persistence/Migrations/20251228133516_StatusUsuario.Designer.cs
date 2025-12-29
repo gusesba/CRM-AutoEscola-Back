@@ -3,6 +3,7 @@ using System;
 using Exemplo.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CRM.Persistence.Migrations
 {
     [DbContext(typeof(ExemploDbContext))]
-    partial class ExemploDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251228133516_StatusUsuario")]
+    partial class StatusUsuario
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -240,9 +243,6 @@ namespace CRM.Persistence.Migrations
                     b.Property<decimal?>("ValorVenda")
                         .HasColumnType("numeric");
 
-                    b.Property<int?>("VendedorAtualId")
-                        .HasColumnType("integer");
-
                     b.Property<int>("VendedorId")
                         .HasColumnType("integer");
 
@@ -253,8 +253,6 @@ namespace CRM.Persistence.Migrations
                     b.HasIndex("SedeId");
 
                     b.HasIndex("ServicoId");
-
-                    b.HasIndex("VendedorAtualId");
 
                     b.HasIndex("VendedorId");
 
@@ -289,11 +287,6 @@ namespace CRM.Persistence.Migrations
                         .HasForeignKey("ServicoId")
                         .OnDelete(DeleteBehavior.NoAction);
 
-                    b.HasOne("Exemplo.Domain.Model.UsuarioModel", "VendedorAtual")
-                        .WithMany("VendasAtuais")
-                        .HasForeignKey("VendedorAtualId")
-                        .OnDelete(DeleteBehavior.NoAction);
-
                     b.HasOne("Exemplo.Domain.Model.UsuarioModel", "Vendedor")
                         .WithMany("Vendas")
                         .HasForeignKey("VendedorId")
@@ -307,8 +300,6 @@ namespace CRM.Persistence.Migrations
                     b.Navigation("Servico");
 
                     b.Navigation("Vendedor");
-
-                    b.Navigation("VendedorAtual");
                 });
 
             modelBuilder.Entity("Exemplo.Domain.Model.CondicaoVendaModel", b =>
@@ -329,8 +320,6 @@ namespace CRM.Persistence.Migrations
             modelBuilder.Entity("Exemplo.Domain.Model.UsuarioModel", b =>
                 {
                     b.Navigation("Vendas");
-
-                    b.Navigation("VendasAtuais");
                 });
 
             modelBuilder.Entity("Exemplo.Domain.Model.VendaModel", b =>

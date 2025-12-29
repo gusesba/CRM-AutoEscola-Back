@@ -44,7 +44,8 @@ namespace Exemplo.Service.Handlers
                 Indicacao = request.Indicacao,
                 MotivoEscolha = request.MotivoEscolha,
                 Cliente = request.Cliente,
-                DataNascimento = request.DataNascimento
+                DataNascimento = request.DataNascimento,
+                VendedorAtualId = request.VendedorId
             };
 
             var venda = await _context.Venda.AddAsync(novoVenda);

@@ -35,6 +35,10 @@ namespace Exemplo.Service.Handlers
             {
                 query = query.Where(c => c.Id == request.Id);
             }
+            if(request.Status != null)
+            {
+                query = query.Where(c => c.Status == request.Status);
+            }
 
             var totalCount = await query.CountAsync(cancellationToken);
 
@@ -43,6 +47,7 @@ namespace Exemplo.Service.Handlers
             {
                 "nome" => ascending ? query.OrderBy(c => c.Nome) : query.OrderByDescending(c => c.Nome),
                 "usuario" => ascending ? query.OrderBy(c => c.Usuario) : query.OrderByDescending(c => c.Usuario),
+                "status" => ascending ? query.OrderBy(c => c.Status) : query.OrderByDescending(c => c.Status),
                 "id" or _ => ascending ? query.OrderBy(c => c.Id) : query.OrderByDescending(c => c.Id),
             };
 

@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using Exemplo.Domain.Model.Enum;
+using System.Text.Json.Serialization;
 
 namespace Exemplo.Domain.Model
 {
@@ -9,8 +10,12 @@ namespace Exemplo.Domain.Model
         public string Usuario { get; set; } = string.Empty;
         public string SenhaHash { get; set; } = string.Empty;
         public bool IsAdmin { get; set; } = false;
+        public StatusUsuarioEnum Status { get; set; } = StatusUsuarioEnum.Ativo;
 
         [JsonIgnore]
         public ICollection<VendaModel> Vendas { get; set; }
+
+        [JsonIgnore]
+        public ICollection<VendaModel> VendasAtuais { get; set; }
     }
 }

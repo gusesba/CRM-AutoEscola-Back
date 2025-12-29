@@ -57,5 +57,19 @@ namespace Renova.API.Controllers
             return Ok(venda);
         }
 
+        [HttpPatch("transferir")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<IActionResult> TransferirVendas([FromBody] TransferirVendasCommand command)
+        {
+            await _mediator.Send(command);
+            return NoContent();
+        }
+
+        [HttpGet("dashboard")]
+        public async Task<IActionResult> Dashboard([FromQuery] DashboardQuery query)
+        {
+            var result = await _mediator.Send(query);
+            return Ok(result);
+        }
     }
 }

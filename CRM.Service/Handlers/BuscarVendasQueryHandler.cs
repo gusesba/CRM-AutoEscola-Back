@@ -50,10 +50,22 @@ namespace Exemplo.Service.Handlers
             if (request.Origem.HasValue)
                 query = query.Where(v => v.Origem == request.Origem.Value);
 
-            if(!string.IsNullOrWhiteSpace(request.Vendedor))
+            if (request.VendedorId.HasValue)
+                query = query.Where(v => v.VendedorId == request.VendedorId.Value);
+
+            if (request.VendedorAtualId.HasValue)
+                query = query.Where(v => v.VendedorAtualId == request.VendedorAtualId.Value);
+
+            if (!string.IsNullOrWhiteSpace(request.Vendedor))
             {
                 var filtro = request.Vendedor.ToLower();
                 query = query.Where(v => v.Vendedor.Nome.ToLower().Contains(filtro));
+            }
+
+            if (!string.IsNullOrWhiteSpace(request.VendedorAtual))
+            {
+                var filtro = request.VendedorAtual.ToLower();
+                query = query.Where(v => v.VendedorAtual.Nome.ToLower().Contains(filtro));
             }
 
             if (!string.IsNullOrWhiteSpace(request.Cliente))

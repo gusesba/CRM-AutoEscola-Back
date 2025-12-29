@@ -31,6 +31,8 @@ namespace Exemplo.Domain.Model
         public string? Indicacao { get; set; }
         public string? Contrato { get; set; }
         public DateTime? DataNascimento { get; set; }
+        public int? VendedorAtualId { get; set; }
+        public UsuarioModel VendedorAtual { get; set; }
 
         [JsonIgnore]
         public ICollection<AgendamentoModel> Agendamentos { get; set; }

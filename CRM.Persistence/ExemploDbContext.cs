@@ -1,4 +1,5 @@
 ﻿using Exemplo.Domain.Model;
+using Exemplo.Domain.Model.Enum;
 using Microsoft.EntityFrameworkCore;
 
 namespace Exemplo.Persistence
@@ -42,13 +43,21 @@ namespace Exemplo.Persistence
                 entity.Property(p=>p.SenhaHash).HasMaxLength(256).IsRequired();
                 entity.Property(p => p.Nome).HasMaxLength(200).IsRequired();
                 entity.Property(p => p.IsAdmin).IsRequired(true).HasDefaultValue(false);
+                entity.Property(p => p.Status).HasDefaultValue(StatusUsuarioEnum.Ativo);
                 entity.HasIndex(p => p.Usuario).IsUnique();
 
                 entity.HasMany(p => p.Vendas)
                         .WithOne(p => p.Vendedor)
                         .HasForeignKey(p => p.VendedorId)
                         .OnDelete(DeleteBehavior.NoAction);
+
+                entity.HasMany(p => p.VendasAtuais)
+                      .WithOne(p => p.VendedorAtual)
+                      .HasForeignKey(p => p.VendedorAtualId)
+                      .OnDelete(DeleteBehavior.NoAction);
             });
+
+
 
             modelBuilder.Entity<ServicoModel>(entity =>
             {
@@ -116,6 +125,12 @@ namespace Exemplo.Persistence
                 entity.Property(p => p.Indicacao);
                 entity.Property(p => p.Contrato);
                 entity.Property(p => p.DataNascimento);
+                entity.Property(p => p.VendedorAtualId);
+
+                entity.HasOne(p => p.VendedorAtual)
+                      .WithMany(p => p.VendasAtuais)
+                      .HasForeignKey(p => p.VendedorAtualId)
+                      .OnDelete(DeleteBehavior.NoAction);
 
                 entity.HasOne(p => p.Sede)
                       .WithMany(p => p.Vendas)
