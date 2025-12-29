@@ -18,12 +18,11 @@ namespace Exemplo.Service.Handlers
 
         public async Task<VendaModel> Handle(CriarVendaCommand request, CancellationToken cancellationToken)
         {
-            //Verificar por telefone
-            //var vendaExistente = await _context.Venda
-            //    .FirstOrDefaultAsync(u => u.Nome == request.Nome);
+            var vendaExistente = await _context.Venda
+               .FirstOrDefaultAsync(u => u.Contato == request.Contato);
 
-            //if (vendaExistente != null)
-            //    throw new Exception("Venda já cadastrada.");
+            if (vendaExistente != null)
+                throw new Exception("Venda já cadastrada.");
 
             var novoVenda = new VendaModel()
             {
