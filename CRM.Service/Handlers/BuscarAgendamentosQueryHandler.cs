@@ -57,6 +57,12 @@ namespace Exemplo.Service.Handlers
                 query = query.Where(a => a.Obs.ToLower().Contains(filtroObs));
             }
 
+            if(!string.IsNullOrWhiteSpace(request.Cliente))
+            {
+                var filtroCliente = request.Cliente.ToLower();
+                query = query.Where(a => a.Venda.Cliente.ToLower().Contains(filtroCliente));
+            }
+
             // Total de registros
             var totalCount = await query.CountAsync(cancellationToken);
 
