@@ -1,5 +1,4 @@
 ﻿using Exemplo.Domain.Model;
-using Exemplo.Domain.Model.Dto;
 using Exemplo.Domain.Settings;
 using Exemplo.Persistence;
 using Exemplo.Service.Queries;
@@ -41,8 +40,10 @@ namespace Exemplo.Service.Handlers
             if (request.CondicaoVendaId.HasValue)
                 query = query.Where(v => v.CondicaoVendaId == request.CondicaoVendaId.Value);
 
-            if (request.Status.HasValue)
-                query = query.Where(v => v.Status == request.Status.Value);
+            if (request.Status != null && request.Status.Any())
+            {
+                query = query.Where(a => request.Status.Contains(a.Status));
+            }
 
             if (request.Genero.HasValue)
                 query = query.Where(v => v.Genero == request.Genero.Value);

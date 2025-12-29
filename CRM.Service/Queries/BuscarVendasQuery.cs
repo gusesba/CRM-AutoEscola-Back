@@ -20,7 +20,7 @@ namespace Exemplo.Service.Queries
 
         public int? CondicaoVendaId { get; set; }
 
-        public StatusEnum? Status { get; set; }
+        public List<StatusEnum>? Status { get; set; }
 
         public GeneroEnum? Genero { get; set; }
 
