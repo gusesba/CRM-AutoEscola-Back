@@ -7,6 +7,8 @@
         public int LeadsAbertos { get; set; }
         public int LeadsSemSucesso { get; set; }
 
+        public decimal? TotalVendas { get; set; } 
+
         public List<DashboardVendedorDto> ComparativoVendedores { get; set; } = new();
     }
 
@@ -17,5 +19,7 @@
 
         public int TotalLeads { get; set; }
         public int TotalMatriculas { get; set; }
+
+        public decimal TotalVendas { get; set; }
     }
 }

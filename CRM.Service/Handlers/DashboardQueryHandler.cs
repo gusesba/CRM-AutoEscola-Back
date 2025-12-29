@@ -87,6 +87,10 @@ namespace Exemplo.Service.Handlers
                 cancellationToken
             );
 
+            var totalVendas = await vendasFiltradasQuery
+            .Where(v => v.Status == StatusEnum.VendaEfetivada)
+            .SumAsync(v => (decimal?)v.ValorVenda, cancellationToken);
+
             // ==========================
             // COMPARATIVO (IGNORA VENDEDOR)
             // ==========================
@@ -99,9 +103,12 @@ namespace Exemplo.Service.Handlers
                     TotalLeads = g.Count(),
                     TotalMatriculas = g.Count(v =>
                         v.Status == StatusEnum.VendaEfetivada
-                    )
+                    ),
+                    TotalVendas = g
+                        .Where(v => v.Status == StatusEnum.VendaEfetivada)
+                        .Sum(v => (decimal?)v.ValorVenda) ?? 0 // ✅
                 })
-                .OrderByDescending(x => x.TotalMatriculas)
+                .OrderByDescending(x => x.TotalVendas)
                 .ToListAsync(cancellationToken);
 
             return new DashboardDto
@@ -110,6 +117,7 @@ namespace Exemplo.Service.Handlers
                 TotalMatriculas = totalMatriculas,
                 LeadsAbertos = leadsAbertos,
                 LeadsSemSucesso = leadsSemSucesso,
+                TotalVendas = totalVendas, 
                 ComparativoVendedores = comparativo
             };
         }
