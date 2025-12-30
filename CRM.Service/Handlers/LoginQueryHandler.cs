@@ -44,7 +44,7 @@ namespace Exemplo.Service.Handlers
             issuer: _settings.AuthSettings.Issuer,
             audience: _settings.AuthSettings.Audience,
             claims: claims,
-            expires: DateTime.UtcNow.AddHours(1),
+            expires: DateTime.UtcNow.AddHours(12),
             signingCredentials: creds);
 
             return new()
