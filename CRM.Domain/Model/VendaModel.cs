@@ -36,5 +36,6 @@ namespace Exemplo.Domain.Model
 
         [JsonIgnore]
         public ICollection<AgendamentoModel> Agendamentos { get; set; }
+        public VendaWhatsappModel? VendaWhatsapp { get; set; }
     }
 }

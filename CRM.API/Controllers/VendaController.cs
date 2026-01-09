@@ -71,5 +71,13 @@ namespace Renova.API.Controllers
             var result = await _mediator.Send(query);
             return Ok(result);
         }
+
+        [HttpGet("whatsapp")]
+        public async Task<IActionResult> Whatsapp([FromRoute] GetVendaByWhatsappQuery query)
+        {
+            var result = await _mediator.Send(query);
+
+            return Ok(result);
+        }
     }
 }

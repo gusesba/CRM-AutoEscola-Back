@@ -21,6 +21,7 @@ namespace Exemplo.Persistence
         public DbSet<VendaModel> Venda { get; set; }
 
         public DbSet<AgendamentoModel> Agendamento { get; set; }
+        public DbSet<VendaWhatsappModel> VendaWhatsapp { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -156,6 +157,13 @@ namespace Exemplo.Persistence
                         .WithOne(p => p.Venda)
                         .HasForeignKey(p => p.VendaId)
                         .OnDelete(DeleteBehavior.NoAction);
+
+                entity.HasOne(v => v.VendaWhatsapp)
+                  .WithOne(vw => vw.Venda)
+                  .HasForeignKey<VendaWhatsappModel>(vw => vw.VendaId)
+                  .OnDelete(DeleteBehavior.NoAction);
+
+
             });
 
             modelBuilder.Entity<AgendamentoModel>(entity =>
@@ -171,6 +179,22 @@ namespace Exemplo.Persistence
                       .WithMany(p => p.Agendamentos)
                       .HasForeignKey(p => p.VendaId)
                       .OnDelete(DeleteBehavior.NoAction);
+            });
+
+            modelBuilder.Entity<VendaWhatsappModel>(entity =>
+            {
+                entity.ToTable("vendawhatsapp");
+                entity.HasKey(p => p.Id);
+                entity.Property(p => p.Id).ValueGeneratedOnAdd();
+                entity.Property(p => p.VendaId).IsRequired();
+                entity.Property(p => p.WhatsappUserId).IsRequired();
+                entity.Property(p => p.WhatsappChatId).IsRequired();
+
+                entity.HasOne(p => p.Venda)
+                  .WithOne(v => v.VendaWhatsapp)
+                  .HasForeignKey<VendaWhatsappModel>(p => p.VendaId)
+                  .OnDelete(DeleteBehavior.NoAction);
+
             });
         }
     }
