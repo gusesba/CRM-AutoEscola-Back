@@ -11,7 +11,7 @@ namespace Exemplo.Domain.Model
         [JsonIgnore]
         public VendaModel Venda { get; set; }
 
-        public string WhatsappChatId { get; set; } = null!;
-        public string WhatsappUserId { get; set; } = null!;
+        public string WhatsappChatId { get; set; } = String.Empty;
+        public string WhatsappUserId { get; set; } = String.Empty;
     }
 }

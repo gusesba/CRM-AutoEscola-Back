@@ -73,11 +73,22 @@ namespace Renova.API.Controllers
         }
 
         [HttpGet("whatsapp")]
-        public async Task<IActionResult> Whatsapp([FromRoute] GetVendaByWhatsappQuery query)
+        public async Task<IActionResult> Whatsapp([FromQuery] GetVendaByWhatsappQuery query)
         {
             var result = await _mediator.Send(query);
 
             return Ok(result);
+        }
+
+        [HttpPost("vincular")]
+        public async Task<IActionResult> VincularVendaWhats(
+            [FromBody] VincularVendaWhatsCommand command,
+            CancellationToken cancellationToken)
+        {
+            var vinculo = await _mediator.Send(command, cancellationToken);
+            return Ok(vinculo);
+
+
         }
     }
 }
