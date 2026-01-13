@@ -17,5 +17,8 @@ namespace Exemplo.Domain.Model
 
         [JsonIgnore]
         public ICollection<VendaModel> VendasAtuais { get; set; }
+
+        [JsonIgnore]
+        public ICollection<GrupoWhatsappModel> GruposWhatsapp { get; set; }
     }
 }

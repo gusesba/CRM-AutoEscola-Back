@@ -6,5 +6,6 @@ namespace Exemplo.Service.Commands
     public class CriarGrupoWhatsCommand : IRequest<GrupoWhatsappModel>
     {
         public string Nome { get; set; }
+        public int UsuarioId { get; set; }
     }
 }
