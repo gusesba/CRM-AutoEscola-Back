@@ -1,4 +1,5 @@
 ﻿using Exemplo.Domain.Model;
+using Exemplo.Domain.Model.Dto;
 using Exemplo.Domain.Settings;
 using Exemplo.Service.Commands;
 using Exemplo.Service.Queries;
@@ -78,6 +79,15 @@ namespace Renova.API.Controllers
             var result = await _mediator.Send(query);
 
             return Ok(result);
+        }
+
+        [HttpGet("whatsapp/grupos")]
+        [ProducesResponseType(typeof(List<GrupoWhatsappDto>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> BuscarGruposWhatsapp([FromQuery] BuscarGruposWhatsappQuery query)
+        {
+            var grupos = await _mediator.Send(query);
+
+            return Ok(grupos);
         }
 
         [HttpPost("vincular")]
