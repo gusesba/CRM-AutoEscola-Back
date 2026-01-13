@@ -13,5 +13,8 @@ namespace Exemplo.Domain.Model
 
         public string WhatsappChatId { get; set; } = String.Empty;
         public string WhatsappUserId { get; set; } = String.Empty;
+
+        [JsonIgnore]
+        public ICollection<GrupoVendaWhatsappModel> GruposVendaWhatsapp { get; set; }
     }
 }

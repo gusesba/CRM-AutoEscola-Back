@@ -22,6 +22,8 @@ namespace Exemplo.Persistence
 
         public DbSet<AgendamentoModel> Agendamento { get; set; }
         public DbSet<VendaWhatsappModel> VendaWhatsapp { get; set; }
+        public DbSet<GrupoWhatsappModel> GrupoWhatsapp { get; set; }
+        public DbSet<GrupoVendaWhatsappModel> GrupoVendaWhatsapp { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -195,6 +197,42 @@ namespace Exemplo.Persistence
                   .HasForeignKey<VendaWhatsappModel>(p => p.VendaId)
                   .OnDelete(DeleteBehavior.NoAction);
 
+                entity.HasMany(entity => entity.GruposVendaWhatsapp)
+                      .WithOne(gv => gv.VendaWhatsapp)
+                      .HasForeignKey(gv => gv.IdVendaWhats)
+                      .OnDelete(DeleteBehavior.NoAction);
+            });
+
+            modelBuilder.Entity<GrupoWhatsappModel>(entity =>
+            {
+                entity.ToTable("grupowhatsapp");
+                entity.HasKey(p => p.Id);
+                entity.Property(p => p.Id).ValueGeneratedOnAdd();
+                entity.Property(p => p.Nome).IsRequired();
+
+                entity.HasMany(entity => entity.GruposVendaWhatsapp)
+                      .WithOne(gv => gv.GrupoWhatsapp)
+                      .HasForeignKey(gv => gv.IdGrupo)
+                      .OnDelete(DeleteBehavior.NoAction);
+            });
+
+            modelBuilder.Entity<GrupoVendaWhatsappModel>(entity =>
+            {
+                entity.ToTable("grupovendawhatsapp");
+                entity.HasKey(p => p.Id);
+                entity.Property(p => p.Id).ValueGeneratedOnAdd();
+                entity.Property(p => p.IdVendaWhats).IsRequired();
+                entity.Property(p => p.IdGrupo).IsRequired();
+
+                entity.HasOne(p => p.VendaWhatsapp)
+                      .WithMany(vw => vw.GruposVendaWhatsapp)
+                      .HasForeignKey(p => p.IdVendaWhats)
+                      .OnDelete(DeleteBehavior.NoAction);
+
+                entity.HasOne(p => p.GrupoWhatsapp)
+                      .WithMany(g => g.GruposVendaWhatsapp)
+                      .HasForeignKey(p => p.IdGrupo)
+                      .OnDelete(DeleteBehavior.NoAction);
             });
         }
     }
