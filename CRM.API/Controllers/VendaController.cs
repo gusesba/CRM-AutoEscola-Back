@@ -120,5 +120,15 @@ namespace Renova.API.Controllers
             await _mediator.Send(new ExcluirGrupoWhatsCommand { GrupoId = grupoId }, cancellationToken);
             return NoContent();
         }
+
+        [HttpDelete("grupo/conversas")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<IActionResult> RemoverConversasGrupoWhats(
+            [FromBody] RemoverConversasGrupoWhatsCommand command,
+            CancellationToken cancellationToken)
+        {
+            await _mediator.Send(command, cancellationToken);
+            return NoContent();
+        }
     }
 }
