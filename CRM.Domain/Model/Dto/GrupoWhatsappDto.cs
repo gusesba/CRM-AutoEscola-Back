@@ -12,6 +12,7 @@ namespace Exemplo.Domain.Model.Dto
         public int Id { get; set; }
         public int VendaWhatsappId { get; set; }
         public int VendaId { get; set; }
+        public VendaModel Venda { get; set; }
         public string WhatsappChatId { get; set; } = string.Empty;
         public string WhatsappUserId { get; set; } = string.Empty;
     }

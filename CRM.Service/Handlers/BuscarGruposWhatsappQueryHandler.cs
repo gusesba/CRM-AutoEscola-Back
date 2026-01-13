@@ -43,6 +43,7 @@ namespace Exemplo.Service.Handlers
                             Id = gv.Id,
                             VendaWhatsappId = gv.IdVendaWhats,
                             VendaId = gv.VendaWhatsapp.VendaId,
+                            Venda = gv.VendaWhatsapp.Venda,
                             WhatsappChatId = gv.VendaWhatsapp.WhatsappChatId,
                             WhatsappUserId = gv.VendaWhatsapp.WhatsappUserId
                         })
