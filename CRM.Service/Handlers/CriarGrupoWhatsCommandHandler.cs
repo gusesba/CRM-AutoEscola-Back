@@ -27,9 +27,16 @@ namespace Exemplo.Service.Handlers
             if (grupoExists != null)
                 throw new InvalidOperationException("Grupo já criado");
 
+            var usuarioExiste = await _context.Usuario
+                .AnyAsync(u => u.Id == request.UsuarioId, cancellationToken);
+
+            if (!usuarioExiste)
+                throw new InvalidOperationException("Usuário não encontrado");
+
             var grupo = new GrupoWhatsappModel()
             {
-                Nome = request.Nome
+                Nome = request.Nome,
+                UsuarioId = request.UsuarioId
             };
 
             var entity = _context.GrupoWhatsapp.Add(grupo);

@@ -30,12 +30,18 @@ namespace Exemplo.Service.Handlers
                 query = query.Where(g => g.Id == request.Id.Value);
             }
 
+            if (request.UsuarioId.HasValue)
+            {
+                query = query.Where(g => g.UsuarioId == request.UsuarioId.Value);
+            }
+
             return await query
                 .OrderBy(g => g.Id)
                 .Select(g => new GrupoWhatsappDto
                 {
                     Id = g.Id,
                     Nome = g.Nome,
+                    UsuarioId = g.UsuarioId,
                     Conversas = g.GruposVendaWhatsapp
                         .OrderBy(gv => gv.Id)
                         .Select(gv => new GrupoWhatsappConversaDto

@@ -209,6 +209,12 @@ namespace Exemplo.Persistence
                 entity.HasKey(p => p.Id);
                 entity.Property(p => p.Id).ValueGeneratedOnAdd();
                 entity.Property(p => p.Nome).IsRequired();
+                entity.Property(p => p.UsuarioId).IsRequired();
+
+                entity.HasOne(p => p.Usuario)
+                      .WithMany(p => p.GruposWhatsapp)
+                      .HasForeignKey(p => p.UsuarioId)
+                      .OnDelete(DeleteBehavior.NoAction);
 
                 entity.HasMany(entity => entity.GruposVendaWhatsapp)
                       .WithOne(gv => gv.GrupoWhatsapp)
