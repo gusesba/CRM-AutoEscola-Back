@@ -87,8 +87,20 @@ namespace Renova.API.Controllers
         {
             var vinculo = await _mediator.Send(command, cancellationToken);
             return Ok(vinculo);
+        }
 
+        [HttpPost("grupo")]
+        public async Task<IActionResult> CriarGrupoWhats([FromBody] CriarGrupoWhatsCommand command, CancellationToken cancellationToken)
+        {
+            var grupo = await _mediator.Send(command, cancellationToken);
+            return Ok(grupo);
+        }
 
+        [HttpPost("adicionargrupo")]
+        public async Task<IActionResult> AdicionarAoGrupo([FromBody] AdicionarAoGrupoWhatsCommand command, CancellationToken cancellationToken)
+        {
+            var grupoVenda = await _mediator.Send(command,cancellationToken);
+            return Ok(grupoVenda);
         }
     }
 }
