@@ -130,5 +130,13 @@ namespace Renova.API.Controllers
             await _mediator.Send(command, cancellationToken);
             return NoContent();
         }
+
+        [HttpDelete("whatsapp/{vendaWhatsappId}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<IActionResult> ExcluirVendaWhatsapp([FromRoute] int vendaWhatsappId, CancellationToken cancellationToken)
+        {
+            await _mediator.Send(new ExcluirVendaWhatsappCommand { VendaWhatsappId = vendaWhatsappId }, cancellationToken);
+            return NoContent();
+        }
     }
 }
