@@ -27,9 +27,6 @@ namespace Renova.API.Controllers
         public async Task<IActionResult> Login([FromBody] LoginQuery request)
         {
             var token = await _mediator.Send(request);
-            if (token == null)
-                return Unauthorized();
-
             return Ok(token);
         }
 

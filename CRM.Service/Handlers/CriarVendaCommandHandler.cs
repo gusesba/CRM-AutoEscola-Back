@@ -2,6 +2,7 @@
 using Exemplo.Domain.Model.Dto;
 using Exemplo.Persistence;
 using Exemplo.Service.Commands;
+using Exemplo.Service.Exceptions;
 using Exemplo.Service.Queries;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -22,7 +23,7 @@ namespace Exemplo.Service.Handlers
                .FirstOrDefaultAsync(u => u.Contato == request.Contato);
 
             if (vendaExistente != null)
-                throw new Exception("Venda já cadastrada.");
+                throw new ConflictException("Venda já cadastrada.");
 
             var novoVenda = new VendaModel()
             {

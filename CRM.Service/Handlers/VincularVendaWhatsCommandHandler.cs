@@ -3,6 +3,7 @@ using Exemplo.Domain.Model.Dto;
 using Exemplo.Domain.Model.Enum;
 using Exemplo.Persistence;
 using Exemplo.Service.Commands;
+using Exemplo.Service.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -27,7 +28,7 @@ namespace Exemplo.Service.Handlers
                 .FirstOrDefaultAsync(v => v.Id == request.VendaId, cancellationToken);
 
             if (vendaExists == null)
-                throw new InvalidOperationException("Venda não encontrada.");
+                throw new NotFoundException("Venda não encontrada.");
 
             // 🔎 Verifica se já existe vínculo para esse chat/user
             var existingLink = await _context.VendaWhatsapp
@@ -49,7 +50,7 @@ namespace Exemplo.Service.Handlers
                 .AnyAsync(x => x.VendaId == request.VendaId, cancellationToken);
 
             if (vendaAlreadyLinked)
-                throw new InvalidOperationException(
+                throw new ConflictException(
                     "Esta venda já está vinculada a um chat do WhatsApp."
                 );
 

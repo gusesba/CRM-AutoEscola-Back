@@ -1,6 +1,7 @@
 ﻿using Exemplo.Domain.Model.Dto;
 using Exemplo.Persistence;
 using Exemplo.Service.Commands;
+using Exemplo.Service.Exceptions;
 using Exemplo.Service.Queries;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -25,9 +26,9 @@ namespace Exemplo.Service.Handlers
 
         public async Task<LoginDto> Handle(LoginQuery request, CancellationToken cancellationToken)
         {
-            var usuario = await _context.Usuario.FirstOrDefaultAsync(u=>u.Usuario == request.Usuario);
+            var usuario = await _context.Usuario.FirstOrDefaultAsync(u => u.Usuario == request.Usuario, cancellationToken);
             if (usuario == null || !BCrypt.Net.BCrypt.Verify(request.Senha, usuario.SenhaHash))
-                return null;
+                throw new UnauthorizedException("Usuário ou senha inválidos.");
 
             var claims = new[]
             {

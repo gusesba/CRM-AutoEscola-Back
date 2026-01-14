@@ -1,5 +1,6 @@
 using Exemplo.Persistence;
 using Exemplo.Service.Commands;
+using Exemplo.Service.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,7 +22,7 @@ namespace Exemplo.Service.Handlers
 
             if (vendaWhatsapp == null)
             {
-                throw new InvalidOperationException("Venda Whatsapp não encontrada.");
+                throw new NotFoundException("Venda Whatsapp não encontrada.");
             }
 
             var gruposVenda = await _context.GrupoVendaWhatsapp

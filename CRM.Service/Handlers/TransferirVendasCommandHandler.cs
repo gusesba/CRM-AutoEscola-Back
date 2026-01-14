@@ -1,5 +1,6 @@
-﻿using Exemplo.Persistence;
+using Exemplo.Persistence;
 using Exemplo.Service.Commands;
+using Exemplo.Service.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,7 +21,7 @@ namespace Exemplo.Service.Handlers
             CancellationToken cancellationToken)
         {
             if (request.VendasIds == null || !request.VendasIds.Any())
-                throw new Exception("Nenhuma venda foi selecionada para transferência.");
+                throw new ValidationException("Nenhuma venda foi selecionada para transferência.");
 
             // Buscar todas as vendas informadas
             var vendas = await _context.Venda
@@ -28,7 +29,7 @@ namespace Exemplo.Service.Handlers
                 .ToListAsync(cancellationToken);
 
             if (!vendas.Any())
-                throw new Exception("Nenhuma venda encontrada para os IDs informados.");
+                throw new NotFoundException("Nenhuma venda encontrada para os IDs informados.");
 
             // Atualizar vendedor das vendas
             foreach (var venda in vendas)

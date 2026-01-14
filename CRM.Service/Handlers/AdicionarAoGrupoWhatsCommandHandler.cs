@@ -1,6 +1,7 @@
 ﻿using Exemplo.Domain.Model;
 using Exemplo.Persistence;
 using Exemplo.Service.Commands;
+using Exemplo.Service.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,7 +26,7 @@ namespace Exemplo.Service.Handlers
                 .FirstOrDefaultAsync(v => v.IdVendaWhats == request.IdVendaWhats && v.IdGrupo == request.IdGrupoWhats, cancellationToken);
 
             if (adicionado != null)
-                throw new InvalidOperationException("Já adicionado ao grupo");
+                throw new ConflictException("Já adicionado ao grupo.");
 
             var grupoVenda = new GrupoVendaWhatsappModel()
             {

@@ -1,5 +1,6 @@
-﻿using Exemplo.Domain.Model;
+using Exemplo.Domain.Model;
 using Exemplo.Persistence;
+using Exemplo.Service.Exceptions;
 using Exemplo.Service.Queries;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -28,7 +29,10 @@ namespace Exemplo.Service.Handlers
 
             query = query.Where(v => v.Id == request.Id);
 
-            var venda = await query.FirstOrDefaultAsync();
+            var venda = await query.FirstOrDefaultAsync(cancellationToken);
+
+            if (venda == null)
+                throw new NotFoundException("Venda não encontrada.");
 
             return venda;
         }

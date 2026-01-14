@@ -1,3 +1,4 @@
+using CRM.API.Middleware;
 using Exemplo.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -60,7 +61,7 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Minha API", Version = "v1" });
 
-    // Configuração para JWT Bearer
+    // ConfiguraÃ§Ã£o para JWT Bearer
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Name = "Authorization",
@@ -109,6 +110,7 @@ app.UseReDoc(c =>
     c.RoutePrefix = "docs";
 });
 app.UseCors(MyAllowSpecificOrigins);
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseHttpsRedirection();
 app.MapControllers();

@@ -1,6 +1,7 @@
 ﻿using Exemplo.Domain.Model;
 using Exemplo.Persistence;
 using Exemplo.Service.Commands;
+using Exemplo.Service.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,7 +22,7 @@ namespace Exemplo.Service.Handlers
                 .FirstOrDefaultAsync(v => v.Id == request.Id, cancellationToken);
 
             if (venda == null)
-                throw new Exception("Venda não encontrada.");
+                throw new NotFoundException("Venda não encontrada.");
 
             venda.ComoConheceu = request.ComoConheceu;
             venda.VendedorId = request.VendedorId;

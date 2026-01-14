@@ -2,6 +2,7 @@
 using Exemplo.Domain.Model.Dto;
 using Exemplo.Persistence;
 using Exemplo.Service.Commands;
+using Exemplo.Service.Exceptions;
 using Exemplo.Service.Queries;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -24,7 +25,7 @@ namespace Exemplo.Service.Handlers
                 .FirstOrDefaultAsync(u => u.Usuario == request.Usuario);
 
             if (usuarioExistente != null)
-                throw new Exception("Usuário já cadastrado.");
+                throw new ConflictException("Usuário já cadastrado.");
 
             string senhaHash = BCrypt.Net.BCrypt.HashPassword(request.Senha);
 
