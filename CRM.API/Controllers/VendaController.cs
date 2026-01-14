@@ -99,6 +99,15 @@ namespace Renova.API.Controllers
             return Ok(grupos);
         }
 
+        [HttpGet("whatsapp/grupos/venda/{vendaId}")]
+        [ProducesResponseType(typeof(List<GrupoWhatsappDto>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> BuscarGruposWhatsappPorVenda([FromRoute] int vendaId)
+        {
+            var grupos = await _mediator.Send(new BuscarGruposWhatsappQuery { VendaId = vendaId });
+
+            return Ok(grupos);
+        }
+
         [HttpPost("vincular")]
         public async Task<IActionResult> VincularVendaWhats(
             [FromBody] VincularVendaWhatsCommand command,
