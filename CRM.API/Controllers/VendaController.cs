@@ -108,6 +108,15 @@ namespace Renova.API.Controllers
             return Ok(grupos);
         }
 
+        [HttpGet("whatsapp/grupos/chat/{whatsappChatId}")]
+        [ProducesResponseType(typeof(List<GrupoWhatsappDto>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> BuscarGruposWhatsappPorChat([FromRoute] string whatsappChatId)
+        {
+            var grupos = await _mediator.Send(new BuscarGruposWhatsappQuery { WhatsappChatId = whatsappChatId });
+
+            return Ok(grupos);
+        }
+
         [HttpPost("vincular")]
         public async Task<IActionResult> VincularVendaWhats(
             [FromBody] VincularVendaWhatsCommand command,

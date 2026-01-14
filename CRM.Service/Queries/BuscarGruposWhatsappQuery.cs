@@ -8,5 +8,6 @@ namespace Exemplo.Service.Queries
             public int? Id { get; set; }
             public int? UsuarioId { get; set; }
             public int? VendaId { get; set; }
+            public string? WhatsappChatId { get; set; }
         }
 }
