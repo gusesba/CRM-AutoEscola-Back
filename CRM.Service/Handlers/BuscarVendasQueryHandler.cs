@@ -93,7 +93,6 @@ namespace Exemplo.Service.Handlers
                 query = query.Where(v => v.Contato.ToLower().Contains(filtro));
             }
 
-
             if (request.DataInicialDe.HasValue)
                 query = query.Where(v => v.DataInicial >= request.DataInicialDe.Value);
 
