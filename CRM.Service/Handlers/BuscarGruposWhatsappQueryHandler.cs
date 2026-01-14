@@ -41,7 +41,14 @@ namespace Exemplo.Service.Handlers
                     g.GruposVendaWhatsapp.Any(gv => gv.VendaWhatsapp.VendaId == request.VendaId.Value));
             }
 
+            if (!string.IsNullOrWhiteSpace(request.WhatsappChatId))
+            {
+                query = query.Where(g =>
+                    g.GruposVendaWhatsapp.Any(gv => gv.VendaWhatsapp.WhatsappChatId == request.WhatsappChatId));
+            }
+
             var vendaId = request.VendaId;
+            var whatsappChatId = request.WhatsappChatId;
             return await query
                 .OrderBy(g => g.Id)
                 .Select(g => new GrupoWhatsappDto
@@ -50,7 +57,10 @@ namespace Exemplo.Service.Handlers
                     Nome = g.Nome,
                     UsuarioId = g.UsuarioId,
                     Conversas = g.GruposVendaWhatsapp
-                        .Where(gv => !vendaId.HasValue || gv.VendaWhatsapp.VendaId == vendaId.Value)
+                        .Where(gv =>
+                            (!vendaId.HasValue || gv.VendaWhatsapp.VendaId == vendaId.Value) &&
+                            (string.IsNullOrWhiteSpace(whatsappChatId) ||
+                                gv.VendaWhatsapp.WhatsappChatId == whatsappChatId))
                         .OrderBy(gv => gv.Id)
                         .Select(gv => new GrupoWhatsappConversaDto
                         {
