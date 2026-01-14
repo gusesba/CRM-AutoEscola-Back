@@ -1,4 +1,5 @@
-﻿using Exemplo.Domain.Model.Dto;
+﻿using Exemplo.Domain.Model;
+using Exemplo.Domain.Model.Dto;
 using Exemplo.Persistence;
 using Exemplo.Service.Queries;
 using MediatR;
@@ -17,10 +18,10 @@ namespace Exemplo.Service.Handlers
         }
 
         public async Task<List<VendaWhatsappDto>> Handle(
-            ListarVendasWhatsappQuery request,
-            CancellationToken cancellationToken)
+     ListarVendasWhatsappQuery request,
+     CancellationToken cancellationToken)
         {
-            var query = _context.VendaWhatsapp
+            IQueryable<VendaWhatsappModel> query = _context.VendaWhatsapp
                 .AsNoTracking()
                 .Include(vw => vw.Venda);
 
