@@ -35,6 +35,13 @@ namespace Exemplo.Service.Handlers
                 query = query.Where(g => g.UsuarioId == request.UsuarioId.Value);
             }
 
+            if (request.VendaId.HasValue)
+            {
+                query = query.Where(g =>
+                    g.GruposVendaWhatsapp.Any(gv => gv.VendaWhatsapp.VendaId == request.VendaId.Value));
+            }
+
+            var vendaId = request.VendaId;
             return await query
                 .OrderBy(g => g.Id)
                 .Select(g => new GrupoWhatsappDto
@@ -43,6 +50,7 @@ namespace Exemplo.Service.Handlers
                     Nome = g.Nome,
                     UsuarioId = g.UsuarioId,
                     Conversas = g.GruposVendaWhatsapp
+                        .Where(gv => !vendaId.HasValue || gv.VendaWhatsapp.VendaId == vendaId.Value)
                         .OrderBy(gv => gv.Id)
                         .Select(gv => new GrupoWhatsappConversaDto
                         {
