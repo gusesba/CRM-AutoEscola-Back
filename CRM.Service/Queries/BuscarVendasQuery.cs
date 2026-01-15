@@ -39,5 +39,7 @@ namespace Exemplo.Service.Queries
 
         public decimal? ValorMinimo { get; set; }
         public decimal? ValorMaximo { get; set; }
+
+        public int? NaoVendedorAtual { get; set; }
     }
 }

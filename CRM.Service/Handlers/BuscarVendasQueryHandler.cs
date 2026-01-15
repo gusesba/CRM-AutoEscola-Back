@@ -105,6 +105,9 @@ namespace Exemplo.Service.Handlers
             if (request.ValorMaximo.HasValue)
                 query = query.Where(v => v.ValorVenda <= request.ValorMaximo.Value);
 
+            if (request.NaoVendedorAtual.HasValue)
+                query = query.Where(v => v.VendedorAtualId != request.NaoVendedorAtual.Value);
+
             // Total
             var totalCount = await query.CountAsync(cancellationToken);
 
