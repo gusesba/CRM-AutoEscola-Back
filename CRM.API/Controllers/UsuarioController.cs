@@ -50,5 +50,14 @@ namespace Renova.API.Controllers
 
             return Ok(usuarios);
         }
+
+        [HttpPut]
+        [ProducesResponseType(typeof(UsuarioDto), StatusCodes.Status200OK)]
+        public async Task<IActionResult> Editar([FromBody] EditarUsuarioCommand command)
+        {
+            var usuario = await _mediator.Send(command);
+
+            return Ok(usuario);
+        }
     }
 }
