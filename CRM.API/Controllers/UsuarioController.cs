@@ -31,8 +31,7 @@ namespace Renova.API.Controllers
         }
 
         [HttpPost("registrar")]
-        //[Authorize("AdminOnly")]
-        [AllowAnonymous]
+        [Authorize("AdminOnly")]
         [ProducesResponseType(typeof(LoginDto), StatusCodes.Status201Created)]
         public async Task<IActionResult> Registrar([FromBody] SignUpCommand command)
         {
@@ -52,6 +51,7 @@ namespace Renova.API.Controllers
         }
 
         [HttpPut]
+        [Authorize("AdminOnly")]
         [ProducesResponseType(typeof(UsuarioDto), StatusCodes.Status200OK)]
         public async Task<IActionResult> Editar([FromBody] EditarUsuarioCommand command)
         {
