@@ -1,4 +1,5 @@
 ﻿using Exemplo.Domain.Model.Dto;
+using Exemplo.Domain.Model.Enum;
 using Exemplo.Persistence;
 using Exemplo.Service.Commands;
 using Exemplo.Service.Exceptions;
@@ -29,6 +30,9 @@ namespace Exemplo.Service.Handlers
             var usuario = await _context.Usuario.FirstOrDefaultAsync(u => u.Usuario == request.Usuario, cancellationToken);
             if (usuario == null || !BCrypt.Net.BCrypt.Verify(request.Senha, usuario.SenhaHash))
                 throw new UnauthorizedException("Usuário ou senha inválidos.");
+
+            if (usuario.Status != StatusUsuarioEnum.Ativo)
+                throw new UnauthorizedException("Usuário inativo");
 
             var claims = new[]
             {
