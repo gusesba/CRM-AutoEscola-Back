@@ -36,6 +36,10 @@ namespace Exemplo.Service.Handlers
             {
                 //  Ajuste o nome da propriedade conforme seu Model
                 venda.VendedorAtualId = request.UsuarioId;
+                if (request.Permanente)
+                {
+                    venda.VendedorId = request.UsuarioId;
+                }
                 venda.DataAlteracao = DateTime.UtcNow;
             }
 

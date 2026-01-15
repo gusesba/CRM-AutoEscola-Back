@@ -7,5 +7,7 @@ namespace Exemplo.Service.Commands
         public int UsuarioId { get; set; }
 
         public List<int> VendasIds { get; set; } = new();
+
+        public bool Permanente { get; set; }
     }
 }
