@@ -2,6 +2,7 @@
 using Exemplo.Domain.Model.Dto;
 using Exemplo.Persistence;
 using Exemplo.Service.Commands;
+using Exemplo.Service.Exceptions;
 using Exemplo.Service.Queries;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -22,7 +23,7 @@ namespace Exemplo.Service.Handlers
                 .FirstOrDefaultAsync(u => u.Nome == request.Nome);
 
             if (servicoExistente != null)
-                throw new Exception("Serviço já cadastrado.");
+                throw new ConflictException("Serviço já cadastrado.");
 
             var novoServico = new ServicoModel()
             {

@@ -1,6 +1,7 @@
 ﻿using Exemplo.Domain.Model;
 using Exemplo.Persistence;
 using Exemplo.Service.Commands;
+using Exemplo.Service.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,7 +21,7 @@ namespace Exemplo.Service.Handlers
                 .FirstOrDefaultAsync(u => u.Nome == request.Nome);
 
             if (sedeExistente != null)
-                throw new Exception("Sede já cadastrada.");
+                throw new ConflictException("Sede já cadastrada.");
 
             var novaSede = new SedeModel()
             {

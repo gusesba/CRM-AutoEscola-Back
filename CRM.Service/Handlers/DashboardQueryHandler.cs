@@ -1,7 +1,8 @@
-﻿using Exemplo.Domain.Model.Dto;
+using Exemplo.Domain.Model.Dto;
 using Exemplo.Domain.Model.Enum;
 using Exemplo.Persistence;
 using Exemplo.Service.Queries;
+using Exemplo.Service.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -30,10 +31,10 @@ namespace Exemplo.Service.Handlers
                 .AsQueryable();
 
             if (request.DataInicial == default || request.DataFinal == default)
-                throw new ArgumentException("Período é obrigatório para o dashboard.");
+                throw new ValidationException("Período é obrigatório para o dashboard.");
 
             if (request.DataInicial > request.DataFinal)
-                throw new ArgumentException("Data inicial não pode ser maior que a data final.");
+                throw new ValidationException("Data inicial não pode ser maior que a data final.");
 
             if (request.SedeId.HasValue)
                 vendasBaseQuery = vendasBaseQuery.Where(v => v.SedeId == request.SedeId);

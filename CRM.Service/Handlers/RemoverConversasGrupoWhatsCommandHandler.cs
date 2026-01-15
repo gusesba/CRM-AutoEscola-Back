@@ -1,5 +1,6 @@
-﻿using Exemplo.Persistence;
+using Exemplo.Persistence;
 using Exemplo.Service.Commands;
+using Exemplo.Service.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,7 +19,7 @@ namespace Exemplo.Service.Handlers
         {
             if (request.IdsVendaWhats == null || request.IdsVendaWhats.Count == 0)
             {
-                throw new InvalidOperationException("Nenhuma conversa informada para remover.");
+                throw new ValidationException("Nenhuma conversa informada para remover.");
             }
 
             var grupoExists = await _context.GrupoWhatsapp
@@ -26,7 +27,7 @@ namespace Exemplo.Service.Handlers
 
             if (!grupoExists)
             {
-                throw new InvalidOperationException("Grupo não encontrado.");
+                throw new NotFoundException("Grupo não encontrado.");
             }
 
             var conversas = await _context.GrupoVendaWhatsapp
@@ -36,7 +37,7 @@ namespace Exemplo.Service.Handlers
 
             if (conversas.Count == 0)
             {
-                throw new InvalidOperationException("Conversas não encontradas no grupo.");
+                throw new NotFoundException("Conversas não encontradas no grupo.");
             }
 
             _context.GrupoVendaWhatsapp.RemoveRange(conversas);

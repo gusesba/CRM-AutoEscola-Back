@@ -1,6 +1,7 @@
 ﻿using Exemplo.Domain.Model;
 using Exemplo.Persistence;
 using Exemplo.Service.Commands;
+using Exemplo.Service.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,13 +26,13 @@ namespace Exemplo.Service.Handlers
                 .FirstOrDefaultAsync(v => v.Nome == request.Nome, cancellationToken);
 
             if (grupoExists != null)
-                throw new InvalidOperationException("Grupo já criado");
+                throw new ConflictException("Grupo já criado.");
 
             var usuarioExiste = await _context.Usuario
                 .AnyAsync(u => u.Id == request.UsuarioId, cancellationToken);
 
             if (!usuarioExiste)
-                throw new InvalidOperationException("Usuário não encontrado");
+                throw new NotFoundException("Usuário não encontrado.");
 
             var grupo = new GrupoWhatsappModel()
             {
