@@ -34,9 +34,10 @@ namespace Exemplo.Service.Handlers
             if (!usuarioExiste)
                 throw new NotFoundException("Usuário não encontrado.");
 
-            if (request.DataInicialDe.HasValue
-                && request.DataInicialAte.HasValue
-                && request.DataInicialDe.Value.Date > request.DataInicialAte.Value.Date)
+            var dataInicialDe = request.DataInicialDe?.Date;
+            var dataInicialAte = request.DataInicialAte?.Date;
+
+            if (dataInicialDe.HasValue && dataInicialAte.HasValue && dataInicialDe > dataInicialAte)
                 throw new ValidationException("Data inicial não pode ser maior que a data final.");
 
             var grupo = new GrupoWhatsappModel()
@@ -57,11 +58,17 @@ namespace Exemplo.Service.Handlers
                 if (request.Status.HasValue)
                     leadsQuery = leadsQuery.Where(vw => vw.Venda.Status == request.Status.Value);
 
-                if (request.DataInicialDe.HasValue)
-                    leadsQuery = leadsQuery.Where(vw => vw.Venda.DataInicial >= request.DataInicialDe.Value);
+                if (dataInicialDe.HasValue)
+                {
+                    var dataInicialDeUtc = DateTime.SpecifyKind(dataInicialDe.Value, DateTimeKind.Utc);
+                    leadsQuery = leadsQuery.Where(vw => vw.Venda.DataInicial >= dataInicialDeUtc);
+                }
 
-                if (request.DataInicialAte.HasValue)
-                    leadsQuery = leadsQuery.Where(vw => vw.Venda.DataInicial <= request.DataInicialAte.Value);
+                if (dataInicialAte.HasValue)
+                {
+                    var dataInicialAteUtc = DateTime.SpecifyKind(dataInicialAte.Value, DateTimeKind.Utc);
+                    leadsQuery = leadsQuery.Where(vw => vw.Venda.DataInicial <= dataInicialAteUtc);
+                }
 
                 var vendaWhatsIds = await leadsQuery
                     .Select(vw => vw.Id)
