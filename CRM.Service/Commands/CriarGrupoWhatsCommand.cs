@@ -1,4 +1,5 @@
 ﻿using Exemplo.Domain.Model;
+using Exemplo.Domain.Model.Enum;
 using MediatR;
 
 namespace Exemplo.Service.Commands
@@ -7,5 +8,8 @@ namespace Exemplo.Service.Commands
     {
         public string Nome { get; set; }
         public int UsuarioId { get; set; }
+        public StatusEnum? Status { get; set; }
+        public DateTime? DataInicialDe { get; set; }
+        public DateTime? DataInicialAte { get; set; }
     }
 }
