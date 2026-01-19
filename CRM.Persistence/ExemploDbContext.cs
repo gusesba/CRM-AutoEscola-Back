@@ -47,6 +47,7 @@ namespace Exemplo.Persistence
                 entity.Property(p => p.Nome).HasMaxLength(200).IsRequired();
                 entity.Property(p => p.IsAdmin).IsRequired(true).HasDefaultValue(false);
                 entity.Property(p => p.Status).HasDefaultValue(StatusUsuarioEnum.Ativo);
+                entity.Property(p => p.SedeId);
                 entity.HasIndex(p => p.Usuario).IsUnique();
 
                 entity.HasMany(p => p.Vendas)
@@ -57,6 +58,11 @@ namespace Exemplo.Persistence
                 entity.HasMany(p => p.VendasAtuais)
                       .WithOne(p => p.VendedorAtual)
                       .HasForeignKey(p => p.VendedorAtualId)
+                      .OnDelete(DeleteBehavior.NoAction);
+
+                entity.HasOne(p => p.Sede)
+                      .WithMany(p => p.Usuarios)
+                      .HasForeignKey(p => p.SedeId)
                       .OnDelete(DeleteBehavior.NoAction);
             });
 
@@ -85,6 +91,11 @@ namespace Exemplo.Persistence
                 entity.Property(p => p.Ativo).HasDefaultValue(true);
 
                 entity.HasMany(p => p.Vendas)
+                        .WithOne(p => p.Sede)
+                        .HasForeignKey(p => p.SedeId)
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                entity.HasMany(p => p.Usuarios)
                         .WithOne(p => p.Sede)
                         .HasForeignKey(p => p.SedeId)
                         .OnDelete(DeleteBehavior.NoAction);

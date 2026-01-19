@@ -12,5 +12,6 @@ namespace Exemplo.Service.Commands
         public string? Senha { get; set; }
         public bool IsAdmin { get; set; }
         public StatusUsuarioEnum Status { get; set; } = StatusUsuarioEnum.Ativo;
+        public int? SedeId { get; set; }
     }
 }
