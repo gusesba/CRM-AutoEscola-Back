@@ -22,5 +22,8 @@ namespace Exemplo.Domain.Model
 
         [JsonIgnore]
         public ICollection<GrupoWhatsappModel> GruposWhatsapp { get; set; }
+
+        [JsonIgnore]
+        public ICollection<WhatsappChatModel> WhatsappChats { get; set; }
     }
 }

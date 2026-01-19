@@ -24,6 +24,8 @@ namespace Exemplo.Persistence
         public DbSet<VendaWhatsappModel> VendaWhatsapp { get; set; }
         public DbSet<GrupoWhatsappModel> GrupoWhatsapp { get; set; }
         public DbSet<GrupoVendaWhatsappModel> GrupoVendaWhatsapp { get; set; }
+        public DbSet<WhatsappChatModel> WhatsappChat { get; set; }
+        public DbSet<WhatsappMensagemModel> WhatsappMensagem { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -249,6 +251,50 @@ namespace Exemplo.Persistence
                 entity.HasOne(p => p.GrupoWhatsapp)
                       .WithMany(g => g.GruposVendaWhatsapp)
                       .HasForeignKey(p => p.IdGrupo)
+                      .OnDelete(DeleteBehavior.NoAction);
+            });
+
+            modelBuilder.Entity<WhatsappChatModel>(entity =>
+            {
+                entity.ToTable("whatsappchat");
+                entity.HasKey(p => p.Id);
+                entity.Property(p => p.Id).HasMaxLength(100).IsRequired();
+                entity.Property(p => p.Nome).HasMaxLength(200).IsRequired();
+                entity.Property(p => p.IsGroup).IsRequired();
+                entity.Property(p => p.UnreadCount).IsRequired();
+                entity.Property(p => p.ProfilePicUrl);
+                entity.Property(p => p.LastMessageBody);
+                entity.Property(p => p.LastMessageTimestamp);
+                entity.Property(p => p.UsuarioId).IsRequired();
+
+                entity.HasOne(p => p.Usuario)
+                      .WithMany(p => p.WhatsappChats)
+                      .HasForeignKey(p => p.UsuarioId)
+                      .OnDelete(DeleteBehavior.NoAction);
+
+                entity.HasMany(p => p.Mensagens)
+                      .WithOne(m => m.Chat)
+                      .HasForeignKey(m => m.WhatsappChatId)
+                      .OnDelete(DeleteBehavior.NoAction);
+            });
+
+            modelBuilder.Entity<WhatsappMensagemModel>(entity =>
+            {
+                entity.ToTable("whatsappmensagem");
+                entity.HasKey(p => p.Id);
+                entity.Property(p => p.Id).HasMaxLength(100).IsRequired();
+                entity.Property(p => p.Body).IsRequired();
+                entity.Property(p => p.FromMe).IsRequired();
+                entity.Property(p => p.Timestamp).IsRequired();
+                entity.Property(p => p.Type).HasMaxLength(100).IsRequired();
+                entity.Property(p => p.HasMedia).IsRequired();
+                entity.Property(p => p.MediaUrl);
+                entity.Property(p => p.Author);
+                entity.Property(p => p.WhatsappChatId).IsRequired();
+
+                entity.HasOne(p => p.Chat)
+                      .WithMany(c => c.Mensagens)
+                      .HasForeignKey(p => p.WhatsappChatId)
                       .OnDelete(DeleteBehavior.NoAction);
             });
         }
