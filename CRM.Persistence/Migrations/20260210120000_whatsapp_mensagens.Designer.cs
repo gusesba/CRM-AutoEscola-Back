@@ -3,6 +3,7 @@ using System;
 using Exemplo.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,7 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CRM.Persistence.Migrations
 {
     [DbContext(typeof(ExemploDbContext))]
-    partial class ExemploDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260210120000_whatsapp_mensagens")]
+    partial class whatsapp_mensagens
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {

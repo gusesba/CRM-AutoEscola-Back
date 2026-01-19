@@ -24,6 +24,8 @@ namespace Exemplo.Persistence
         public DbSet<VendaWhatsappModel> VendaWhatsapp { get; set; }
         public DbSet<GrupoWhatsappModel> GrupoWhatsapp { get; set; }
         public DbSet<GrupoVendaWhatsappModel> GrupoVendaWhatsapp { get; set; }
+        public DbSet<ChatWhatsappModel> ChatWhatsapp { get; set; }
+        public DbSet<MensagemWhatsappModel> MensagemWhatsapp { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -250,6 +252,42 @@ namespace Exemplo.Persistence
                       .WithMany(g => g.GruposVendaWhatsapp)
                       .HasForeignKey(p => p.IdGrupo)
                       .OnDelete(DeleteBehavior.NoAction);
+            });
+
+            modelBuilder.Entity<ChatWhatsappModel>(entity =>
+            {
+                entity.ToTable("chatwhatsapp");
+                entity.HasKey(p => p.Id);
+                entity.Property(p => p.Id).ValueGeneratedOnAdd();
+                entity.Property(p => p.UsuarioId).IsRequired();
+                entity.Property(p => p.WhatsappChatId).IsRequired();
+                entity.HasIndex(p => new { p.UsuarioId, p.WhatsappChatId }).IsUnique();
+
+                entity.HasOne(p => p.Usuario)
+                      .WithMany(u => u.ChatsWhatsapp)
+                      .HasForeignKey(p => p.UsuarioId)
+                      .OnDelete(DeleteBehavior.NoAction);
+
+                entity.HasMany(p => p.Mensagens)
+                      .WithOne(m => m.ChatWhatsapp)
+                      .HasForeignKey(m => m.ChatWhatsappId)
+                      .OnDelete(DeleteBehavior.NoAction);
+            });
+
+            modelBuilder.Entity<MensagemWhatsappModel>(entity =>
+            {
+                entity.ToTable("mensagemwhatsapp");
+                entity.HasKey(p => p.Id);
+                entity.Property(p => p.Id).ValueGeneratedOnAdd();
+                entity.Property(p => p.ChatWhatsappId).IsRequired();
+                entity.Property(p => p.MensagemId).IsRequired();
+                entity.Property(p => p.Body);
+                entity.Property(p => p.FromMe).IsRequired();
+                entity.Property(p => p.Timestamp).IsRequired();
+                entity.Property(p => p.Type).IsRequired();
+                entity.Property(p => p.HasMedia).IsRequired();
+                entity.Property(p => p.MediaUrl);
+                entity.HasIndex(p => new { p.ChatWhatsappId, p.MensagemId }).IsUnique();
             });
         }
     }
