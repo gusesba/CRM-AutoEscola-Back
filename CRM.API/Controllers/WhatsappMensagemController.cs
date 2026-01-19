@@ -19,6 +19,7 @@ namespace Renova.API.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(MensagemWhatsappModel), StatusCodes.Status201Created)]
         public async Task<IActionResult> RegistrarMensagem([FromBody] RegistrarMensagemWhatsappCommand command)
         {
