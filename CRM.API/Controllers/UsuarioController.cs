@@ -59,5 +59,13 @@ namespace Renova.API.Controllers
 
             return Ok(usuario);
         }
+
+        [HttpGet("validar-token")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public IActionResult ValidarToken()
+        {
+            return Ok(new { valido = true });
+        }
     }
 }
