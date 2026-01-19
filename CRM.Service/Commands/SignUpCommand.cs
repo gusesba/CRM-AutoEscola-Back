@@ -9,5 +9,6 @@ namespace Exemplo.Service.Commands
         public string Senha { get; set; } = string.Empty;
         public string Nome {  get; set; } = string.Empty;
         public bool IsAdmin { get; set; } = false;
+        public int? SedeId { get; set; }
     }
 }

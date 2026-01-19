@@ -61,7 +61,8 @@ namespace Exemplo.Service.Handlers
                     Id = u.Id,
                     Nome = u.Nome,
                     Usuario = u.Usuario,
-                    Status = u.Status
+                    Status = u.Status,
+                    SedeId = u.SedeId
                 })
                 .ToListAsync(cancellationToken);
 
