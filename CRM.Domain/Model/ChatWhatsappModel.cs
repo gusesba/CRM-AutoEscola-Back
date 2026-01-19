@@ -7,6 +7,7 @@ namespace Exemplo.Domain.Model
         public int Id { get; set; }
         public int UsuarioId { get; set; }
         public string WhatsappChatId { get; set; } = string.Empty;
+        public string NomeChat { get; set; } = string.Empty;
 
         [JsonIgnore]
         public UsuarioModel Usuario { get; set; }

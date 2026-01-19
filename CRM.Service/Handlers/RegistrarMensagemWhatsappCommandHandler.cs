@@ -37,10 +37,18 @@ namespace Exemplo.Service.Handlers
                 chat = new ChatWhatsappModel
                 {
                     UsuarioId = request.UserId,
-                    WhatsappChatId = request.ChatId
+                    WhatsappChatId = request.ChatId,
+                    NomeChat = request.ChatName
                 };
 
                 _context.ChatWhatsapp.Add(chat);
+                await _context.SaveChangesAsync(cancellationToken);
+            }
+            else if (!string.IsNullOrWhiteSpace(request.ChatName) &&
+                     !string.Equals(chat.NomeChat, request.ChatName, StringComparison.Ordinal))
+            {
+                chat.NomeChat = request.ChatName;
+                _context.ChatWhatsapp.Update(chat);
                 await _context.SaveChangesAsync(cancellationToken);
             }
 

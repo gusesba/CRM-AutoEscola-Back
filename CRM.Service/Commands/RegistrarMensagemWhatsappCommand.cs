@@ -8,6 +8,7 @@ namespace Exemplo.Service.Commands
     {
         public int UserId { get; set; }
         public string ChatId { get; set; } = string.Empty;
+        public string ChatName { get; set; } = string.Empty;
         public WhatsappMensagemConteudoDto Message { get; set; } = new();
     }
 }
