@@ -1,11 +1,11 @@
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace CRM.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class AddNomeChatWhatsapp : Migration
+    public partial class nomechat : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -14,7 +14,8 @@ namespace CRM.Persistence.Migrations
                 name: "NomeChat",
                 table: "chatwhatsapp",
                 type: "text",
-                nullable: true);
+                nullable: false,
+                defaultValue: "");
         }
 
         /// <inheritdoc />
