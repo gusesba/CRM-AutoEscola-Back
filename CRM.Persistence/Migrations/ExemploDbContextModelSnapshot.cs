@@ -58,6 +58,9 @@ namespace CRM.Persistence.Migrations
                     b.Property<int>("UsuarioId")
                         .HasColumnType("integer");
 
+                    b.Property<string>("NomeChat")
+                        .HasColumnType("text");
+
                     b.Property<string>("WhatsappChatId")
                         .IsRequired()
                         .HasColumnType("text");

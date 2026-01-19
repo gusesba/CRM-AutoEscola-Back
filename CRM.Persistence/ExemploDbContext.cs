@@ -261,6 +261,7 @@ namespace Exemplo.Persistence
                 entity.Property(p => p.Id).ValueGeneratedOnAdd();
                 entity.Property(p => p.UsuarioId).IsRequired();
                 entity.Property(p => p.WhatsappChatId).IsRequired();
+                entity.Property(p => p.NomeChat);
                 entity.HasIndex(p => new { p.UsuarioId, p.WhatsappChatId }).IsUnique();
 
                 entity.HasOne(p => p.Usuario)
