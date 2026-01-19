@@ -12,10 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CRM.Persistence.Migrations
 {
     [DbContext(typeof(ExemploDbContext))]
-    [Migration("20260210120000_whatsapp_mensagens")]
-    partial class whatsapp_mensagens
+    [Migration("20260119131528_backupWhats")]
+    partial class backupWhats
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,6 +48,29 @@ namespace CRM.Persistence.Migrations
                     b.HasIndex("VendaId");
 
                     b.ToTable("agendamento", (string)null);
+                });
+
+            modelBuilder.Entity("Exemplo.Domain.Model.ChatWhatsappModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("UsuarioId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("WhatsappChatId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UsuarioId", "WhatsappChatId")
+                        .IsUnique();
+
+                    b.ToTable("chatwhatsapp", (string)null);
                 });
 
             modelBuilder.Entity("Exemplo.Domain.Model.CondicaoVendaModel", b =>
@@ -88,29 +112,6 @@ namespace CRM.Persistence.Migrations
                     b.HasIndex("Campo1");
 
                     b.ToTable("exemplo", (string)null);
-                });
-
-            modelBuilder.Entity("Exemplo.Domain.Model.ChatWhatsappModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("UsuarioId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("WhatsappChatId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UsuarioId", "WhatsappChatId")
-                        .IsUnique();
-
-                    b.ToTable("chatwhatsapp", (string)null);
                 });
 
             modelBuilder.Entity("Exemplo.Domain.Model.GrupoVendaWhatsappModel", b =>
@@ -405,17 +406,6 @@ namespace CRM.Persistence.Migrations
                     b.ToTable("vendawhatsapp", (string)null);
                 });
 
-            modelBuilder.Entity("Exemplo.Domain.Model.ChatWhatsappModel", b =>
-                {
-                    b.HasOne("Exemplo.Domain.Model.UsuarioModel", "Usuario")
-                        .WithMany("ChatsWhatsapp")
-                        .HasForeignKey("UsuarioId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Usuario");
-                });
-
             modelBuilder.Entity("Exemplo.Domain.Model.AgendamentoModel", b =>
                 {
                     b.HasOne("Exemplo.Domain.Model.VendaModel", "Venda")
@@ -425,6 +415,17 @@ namespace CRM.Persistence.Migrations
                         .IsRequired();
 
                     b.Navigation("Venda");
+                });
+
+            modelBuilder.Entity("Exemplo.Domain.Model.ChatWhatsappModel", b =>
+                {
+                    b.HasOne("Exemplo.Domain.Model.UsuarioModel", "Usuario")
+                        .WithMany("ChatsWhatsapp")
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Usuario");
                 });
 
             modelBuilder.Entity("Exemplo.Domain.Model.GrupoVendaWhatsappModel", b =>
@@ -528,14 +529,14 @@ namespace CRM.Persistence.Migrations
                     b.Navigation("Venda");
                 });
 
-            modelBuilder.Entity("Exemplo.Domain.Model.CondicaoVendaModel", b =>
-                {
-                    b.Navigation("Vendas");
-                });
-
             modelBuilder.Entity("Exemplo.Domain.Model.ChatWhatsappModel", b =>
                 {
                     b.Navigation("Mensagens");
+                });
+
+            modelBuilder.Entity("Exemplo.Domain.Model.CondicaoVendaModel", b =>
+                {
+                    b.Navigation("Vendas");
                 });
 
             modelBuilder.Entity("Exemplo.Domain.Model.GrupoWhatsappModel", b =>
